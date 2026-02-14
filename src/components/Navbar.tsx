@@ -12,7 +12,7 @@ const menuItems = [
   { label: "الكتالوج", href: "#catalog" },
   { label: "جديد", href: "#new" },
   { label: "شروط الجملة", href: "#wholesale" },
-  { label: "من نحن", href: "#about" },
+  { label: "", href: "#about" },
 ];
 
 const Navbar = () => {

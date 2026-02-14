@@ -19,5 +19,17 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      (function() {
+        // Handle GitHub Pages routing
+        var path = window.location.pathname;
+        var repo = '/luxe-pajama-hub-main';
+        
+        // If we're not at the root and not already at the repo path, redirect
+        if (path !== '/' && !path.startsWith(repo)) {
+          window.location.replace(repo + path + window.location.search + window.location.hash);
+        }
+      })();
+    </script>
   </body>
 </html>
