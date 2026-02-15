@@ -88,9 +88,36 @@ const products: Product[] = [
 export const BestSellers: React.FC = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [selectedColors, setSelectedColors] = useState<{ [key: number]: number }>({});
+  const [imgLoaded, setImgLoaded] = useState<{ [key: number]: boolean }>({});
+  const [modalImgLoaded, setModalImgLoaded] = useState(false);
   
   const activeProduct = products.find(p => p.id === selectedId);
   const selectedColorIndex = selectedId ? selectedColors[selectedId] || 0 : 0;
+
+  /* ===============================
+     PRELOAD ALL IMAGES (KEY FIX)
+  =============================== */
+  useEffect(() => {
+    const preload = (src: string) => {
+      const img = new Image();
+      img.src = src;
+    };
+
+    products.forEach(product => {
+      product.colors.forEach(color => {
+        color.images.forEach(image => preload(image));
+      });
+      preload(product.image);
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /* Reset fade when color changes */
+  useEffect(() => {
+    if (selectedId) {
+      setImgLoaded(prev => ({ ...prev, [selectedId]: false }));
+      setModalImgLoaded(false);
+    }
+  }, [selectedColorIndex, selectedId]);
 
   useEffect(() => {
     if (selectedId) {
@@ -137,8 +164,18 @@ export const BestSellers: React.FC = () => {
                   onClick={() => setSelectedId(product.id)}
                 >
                   <motion.img
+                    key="product-image"
                     src={currentImage}
                     alt={product.title}
+                    loading="eager"
+                    decoding="async"
+                    onLoad={() => setImgLoaded(prev => ({ ...prev, [product.id]: true }))}
+                    initial={{ opacity: 0 }}
+                    animate={{ 
+                      opacity: imgLoaded[product.id] ? 1 : 0,
+                      scale: 1 
+                    }}
+                    transition={{ duration: 0.35 }}
                     className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -214,8 +251,13 @@ export const BestSellers: React.FC = () => {
                 <div className="w-full md:w-1/2 bg-[#F7F7F7] flex flex-col">
                   <div className="relative w-full h-[45vh] md:h-[75vh] flex items-center justify-center p-6">
                     <motion.img
+                      key="modal-image"
                       layoutId={`img-${selectedId}`}
                       src={activeProduct.colors[selectedColorIndex]?.images[0] || activeProduct.image}
+                      onLoad={() => setModalImgLoaded(true)}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: modalImgLoaded ? 1 : 0 }}
+                      transition={{ duration: 0.3 }}
                       className="max-w-full max-h-full w-auto h-auto object-contain drop-shadow-sm"
                       alt={activeProduct.title}
                     />
