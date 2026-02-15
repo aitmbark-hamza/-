@@ -24,7 +24,7 @@ public/videos/
 *.flv
 
 # Large images
-src/assets/hero-bg.jpg
+# src/assets/hero-bg.jpg
 
 # Editor directories and files
 .vscode/*
