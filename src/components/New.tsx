@@ -16,6 +16,15 @@ interface Product {
   }[];
 }
 
+// Utility function to validate color values
+const isValidColor = (color: string): boolean => {
+  return /^#[0-9A-F]{6}$/i.test(color) || 
+         /^rgba?\(/.test(color) || 
+         color === 'black' || 
+         color === 'white' ||
+         color === 'transparent';
+};
+
 const products: Product[] = [
   {
     id: 1,
@@ -50,12 +59,12 @@ const products: Product[] = [
     category: "SALE",
     image: "/modl3/imag1.jpg",
     colors: [
-    { name: "White", value: "black", images: ["/modl3/imag1.png"] },
-     { name: "White", value: "#009fcbff", images: ["/modl3/imag2.png"] },
+      { name: "White", value: "black", images: ["/modl3/imag1.png"] },
+      { name: "White", value: "#009fcbff", images: ["/modl3/imag2.png"] },
       { name: "White", value: "#b78dcaff", images: ["/modl3/imag3.png"] },
-       { name: "White", value: "#a9963aff", images: ["/modl3/imag4.png"] },
-        { name: "White", value: "#129b6bb8", images: ["/modl3/imag5.png"] },
-         { name: "White", value: "#704900b1", images: ["/modl3/imag6.png"] },
+      { name: "White", value: "#a9963aff", images: ["/modl3/imag4.png"] },
+      { name: "White", value: "#129b6bb8", images: ["/modl3/imag5.png"] },
+      { name: "White", value: "#704900b1", images: ["/modl3/imag6.png"] },
     ]
   },
   {
@@ -63,11 +72,16 @@ const products: Product[] = [
     title: "White Scalloped Tank",
     price: "$24.00",
     category: "NEW",
-    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1200",
+    image: "/modl4/img1.png",
     colors: [
-      { name: "White", value: "#F3F4F6", images: ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1200"] },
-      { name: "Beige", value: "#D4A574", images: ["https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1200"] },
-      { name: "Blue", value: "#3B82F6", images: ["https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&q=80&w=1200"] }
+      { name: "White", value: "#704900b1", images: ["/modl4/img1.png"] },
+      { name: "White", value: "#EC4899", images: ["/modl4/img2.png"] },
+      { name: "White", value: "#c08922b1", images: ["/modl4/img3.png"] },
+      { name: "White", value: "#934dccb1", images: ["/modl4/img4.png"] },
+      { name: "White", value: "#70a7e2ff", images: ["/modl4/img5.png"] },
+      { name: "White", value: "#ff0404c0", images: ["/modl4/img6.png"] },
+      { name: "White", value: "rgba(117, 155, 150, 1)", images: ["/modl4/img7.png"] },
+      { name: "White", value: "rgba(222, 223, 154, 0.86)", images: ["/modl4/img8.png"] },
     ]
   },
 ];
@@ -85,6 +99,11 @@ export const BestSellers: React.FC = () => {
     } else {
       document.body.style.overflow = 'unset';
     }
+    
+    // Cleanup function to restore scroll on component unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [selectedId]);
 
   return (
@@ -156,7 +175,7 @@ export const BestSellers: React.FC = () => {
                         ? "border-slate-800 ring-1 ring-slate-300 ring-offset-1"
                         : "border-slate-300"
                         }`}
-                      style={{ backgroundColor: color.value }}
+                      style={{ backgroundColor: isValidColor(color.value) ? color.value : '#ccc' }}
                       title={color.name}
                       aria-label={`Select ${color.name} color`}
                     />
@@ -228,7 +247,7 @@ export const BestSellers: React.FC = () => {
                             ? "border-slate-900 ring-2 ring-slate-200 ring-offset-2"
                             : "border-slate-300"
                             }`}
-                          style={{ backgroundColor: color.value }}
+                          style={{ backgroundColor: isValidColor(color.value) ? color.value : '#ccc' }}
                           title={color.name}
                           aria-label={`Select ${color.name} color`}
                         >

@@ -19,6 +19,15 @@ export interface Product {
   isNew?: boolean;
 }
 
+// Utility function to validate color values
+const isValidColor = (color: string): boolean => {
+  return /^#[0-9A-F]{6}$/i.test(color) || 
+         /^rgba?\(/.test(color) || 
+         color === 'black' || 
+         color === 'white' ||
+         color === 'transparent';
+};
+
 const today = new Date();
 const daysAgo = (n: number) => {
   const d = new Date(today);
@@ -40,20 +49,26 @@ export const products: Product[] = [
     images: ["https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400"],
     colors: [
       {
-        name: "أزرق",
-        value: "#3B82F6",
-        images: ["https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400", "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&auto=format&fit=crop"]
+        name: "Pink", 
+        value: "#3B82F6", 
+        images: ["/modl1/img1.jpg"] 
       },
       {
-        name: "وردي",
-        value: "#EC4899",
-        images: ["https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400", "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400&auto=format&fit=crop"]
+        name: "Blue", 
+        value: "#00cb84ff", 
+        images: ["/modl1/img2.jpg"] 
       },
       {
-        name: "رمادي",
-        value: "#6B7280",
-        images: ["https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=400", "https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=400&auto=format&fit=crop"]
-      }
+        name: "White", 
+        value: "#EC4899", 
+        images: ["/modl1/img3.jpg"] 
+      },
+      {
+        name: "White", 
+        value: "#ec7948ff", 
+        images: ["/modl1/img4.jpg"] 
+      },
+     
     ],
     description: "بيجاما قطنية فاخرة، مريحة للنوم والاسترخاء.",
     dateAdded: daysAgo(5),
@@ -69,18 +84,12 @@ export const products: Product[] = [
     type: "روب",
     sizes: "M - XL",
     availability: "متوفر",
-    images: ["https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400"],
+    images: ["/modl2/imag3.jpg"],
     colors: [
-      {
-        name: "أبيض",
-        value: "#FFFFFF",
-        images: ["https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400", "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&auto=format&fit=crop"]
-      },
-      {
-        name: "بيج",
-        value: "#D4A574",
-        images: ["https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400", "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400&auto=format&fit=crop"]
-      }
+      { name: "White", value: "#062e92ff", images: ["/modl2/imag3.jpg"] },
+    { name: "White", value: "#00cb84ff", images: ["/modl2/imag4.jpg"] },
+      { name: "Pink", value: "#EC4899", images: ["/modl2/imag1.jpg"] },
+      { name: "Blue", value: "#b08431ff", images: ["/modl2/imag2.jpg"] },
     ],
     description: "روب نوم دافئ وجذاب، مثالي للأمسيات الباردة.",
     dateAdded: daysAgo(15),
@@ -116,64 +125,8 @@ export const products: Product[] = [
     description: "شورت نوم قطني مريح، مناسب لفصل الصيف.",
     dateAdded: daysAgo(10),
   },
-  {
-    id: "4",
-    name: "تيشيرت نوم",
-    code: "PJ-004",
-    price: "55 درهم",
-    moq: "80 قطعة",
-    season: "صيف",
-    type: "تيشيرت",
-    sizes: "S - XXL",
-    availability: "متوفر",
-    images: ["https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400"],
-    colors: [
-      {
-        name: "أخضر",
-        value: "#10B981",
-        images: ["https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400"]
-      },
-      {
-        name: "بنفسجي",
-        value: "#8B5CF6",
-        images: ["https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=400"]
-      }
-    ],
-    description: "تيشيرت نوم خفيف وقطني، مثالي للصيف.",
-    dateAdded: daysAgo(8),
-  },
-  {
-    id: "5",
-    name: "طقم نوم نسائي",
-    code: "PJ-005",
-    price: "150 درهم",
-    moq: "40 قطعة",
-    season: "كل الفصول",
-    type: "طقم",
-    sizes: "S - XL",
-    availability: "متوفر",
-    images: ["https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400"],
-    colors: [
-      {
-        name: "وردي فاتح",
-        value: "#FBCFE8",
-        images: ["https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=400"]
-      },
-      {
-        name: "أسود",
-        value: "#000000",
-        images: ["https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400"]
-      },
-      {
-        name: "أحمر",
-        value: "#EF4444",
-        images: ["https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400"]
-      }
-    ],
-    description: "طقم نوم أنيق ومريح، مصمم للراحة القصوى.",
-    dateAdded: daysAgo(3),
-    isNew: true,
-  }
+
+  
 ];
 
 export const getFilteredProducts = (
