@@ -6,6 +6,8 @@ import type { Product } from "@/data/products";
 const MinimalProductCard = ({ product }: { product: Product }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  const currentImage = product.colors?.[0]?.images[0] || product.images[0];
+
   return (
     <div
       className="relative w-full group overflow-hidden bg-white"
@@ -15,7 +17,7 @@ const MinimalProductCard = ({ product }: { product: Product }) => {
       {/* 1. The Clean Image */}
       <div className="relative aspect-[3/4] w-full overflow-hidden">
         <motion.img
-          src={product.images[0]}
+          src={currentImage}
           alt={product.name}
           initial={{ scale: 1 }}
           animate={{ scale: isHovered ? 1.05 : 1 }}
@@ -50,11 +52,16 @@ const MinimalProductCard = ({ product }: { product: Product }) => {
         </AnimatePresence>
       </div>
 
-      {/* 3. Invisible Info (Appears subtly or stays hidden) */}
-      <div className="pt-4 pb-2 text-center">
+      {/* 3. Product Info */}
+      <div className="pt-4 pb-4 text-center">
         <h3 className="text-[12px] font-light text-zinc-400 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           {product.name}
         </h3>
+        {product.colors && product.colors.length > 1 && (
+          <p className="text-[10px] text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            {product.colors.length} ألوان متاحة
+          </p>
+        )}
       </div>
     </div>
   );

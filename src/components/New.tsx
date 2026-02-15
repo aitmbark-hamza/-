@@ -9,18 +9,67 @@ interface Product {
   price: string;
   category: string;
   image: string;
+  colors: {
+    name: string;
+    value: string;
+    images: string[];
+  }[];
 }
 
 const products: Product[] = [
-  { id: 1, title: "Pink Floral Dress", price: "$48.00", category: "NEW ARRIVAL", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1200" },
-  { id: 2, title: "Pink Polo Dress", price: "$32.00", category: "BEST SELLER", image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&q=80&w=1200" },
-  { id: 3, title: "Floral Mini Skirt", price: "$28.00", category: "SALE", image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=1200" },
-  { id: 4, title: "White Scalloped Tank", price: "$24.00", category: "NEW", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1200" },
+  { 
+    id: 1, 
+    title: "Pink Floral Dress", 
+    price: "$48.00", 
+    category: "NEW ARRIVAL", 
+    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1200",
+    colors: [
+      { name: "Pink", value: "#EC4899", images: ["https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1200"] },
+      { name: "Blue", value: "#3B82F6", images: ["https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&q=80&w=1200"] },
+      { name: "White", value: "#F3F4F6", images: ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1200"] }
+    ]
+  },
+  { 
+    id: 2, 
+    title: "Pink Polo Dress", 
+    price: "$32.00", 
+    category: "BEST SELLER", 
+    image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&q=80&w=1200",
+    colors: [
+      { name: "Pink", value: "#EC4899", images: ["https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&q=80&w=1200"] },
+      { name: "Green", value: "#10B981", images: ["https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=1200"] }
+    ]
+  },
+  { 
+    id: 3, 
+    title: "Floral Mini Skirt", 
+    price: "$28.00", 
+    category: "SALE", 
+    image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=1200",
+    colors: [
+      { name: "Floral", value: "#F472B6", images: ["https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=1200"] },
+      { name: "Black", value: "#000000", images: ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1200"] }
+    ]
+  },
+  { 
+    id: 4, 
+    title: "White Scalloped Tank", 
+    price: "$24.00", 
+    category: "NEW", 
+    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1200",
+    colors: [
+      { name: "White", value: "#F3F4F6", images: ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1200"] },
+      { name: "Beige", value: "#D4A574", images: ["https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1200"] },
+      { name: "Blue", value: "#3B82F6", images: ["https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&q=80&w=1200"] }
+    ]
+  },
 ];
 
 export const BestSellers: React.FC = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedColors, setSelectedColors] = useState<{[key: number]: number}>({});
   const activeProduct = products.find(p => p.id === selectedId);
+  const selectedColorIndex = selectedId ? selectedColors[selectedId] || 0 : 0;
 
   // Prevent background scroll when modal is open
   useEffect(() => {
@@ -56,7 +105,12 @@ export const BestSellers: React.FC = () => {
 
         {/* --- PRODUCT GRID --- */}
         <div className="lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {products.map((product) => {
+            const currentColorIndex = selectedColors[product.id] || 0;
+            const currentColor = product.colors[currentColorIndex];
+            const currentImage = currentColor?.images[0] || product.image;
+            
+            return (
             <div key={product.id} className="flex flex-col group">
               <motion.div 
                 layoutId={`img-${product.id}`}
@@ -64,7 +118,7 @@ export const BestSellers: React.FC = () => {
                 onClick={() => setSelectedId(product.id)}
               >
                 <motion.img 
-                  src={product.image} 
+                  src={currentImage} 
                   alt={product.title}
                   className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
                 />
@@ -82,7 +136,28 @@ export const BestSellers: React.FC = () => {
                 </div>
               </motion.div>
 
-              <div className="mt-4 flex justify-between items-start px-1">
+              {/* Color Swatches */}
+              <div className="mt-3 flex justify-center gap-1.5">
+                {product.colors.map((color, index) => (
+                  <button
+                    key={index}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedColors(prev => ({ ...prev, [product.id]: index }));
+                    }}
+                    className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 transition-all duration-200 hover:scale-110 ${
+                      currentColorIndex === index
+                        ? "border-slate-800 ring-1 ring-slate-300 ring-offset-1"
+                        : "border-slate-300"
+                    }`}
+                    style={{ backgroundColor: color.value }}
+                    title={color.name}
+                    aria-label={`Select ${color.name} color`}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-3 flex justify-between items-start px-1">
                 <div className="space-y-1 text-left">
                   <h3 className="text-[11px] md:text-[12px] font-bold text-slate-900 uppercase tracking-wider">{product.title}</h3>
                   <p className="text-[10px] text-slate-400 uppercase tracking-widest">Core Collection</p>
@@ -90,7 +165,8 @@ export const BestSellers: React.FC = () => {
                 <span className="text-sm font-light text-slate-900">{product.price}</span>
               </div>
             </div>
-          ))}
+          );
+        })}
         </div>
       </div>
 
@@ -127,10 +203,42 @@ export const BestSellers: React.FC = () => {
                 <div className="w-full md:w-1/2 bg-[#F9F9F9]">
                   <motion.img 
                     layoutId={`img-${selectedId}`}
-                    src={activeProduct.image} 
+                    src={activeProduct.colors[selectedColorIndex]?.images[0] || activeProduct.image} 
                     className="w-full h-[40vh] md:h-[80vh] object-cover md:object-contain"
                     alt={activeProduct.title}
                   />
+                  
+                  {/* Color Swatches in Modal */}
+                  <div className="p-6 bg-white border-t border-slate-100">
+                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 text-center">
+                      Select Color
+                    </h4>
+                    <div className="flex justify-center gap-3">
+                      {activeProduct.colors.map((color, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setSelectedColors(prev => ({ ...prev, [selectedId!]: index }))}
+                          className={`w-10 h-10 rounded-full border-2 transition-all duration-300 hover:scale-110 flex items-center justify-center ${
+                            selectedColorIndex === index
+                              ? "border-slate-900 ring-2 ring-slate-200 ring-offset-2"
+                              : "border-slate-300"
+                          }`}
+                          style={{ backgroundColor: color.value }}
+                          title={color.name}
+                          aria-label={`Select ${color.name} color`}
+                        >
+                          {selectedColorIndex === index && (
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                    {activeProduct.colors[selectedColorIndex] && (
+                      <p className="text-sm text-slate-600 mt-3 text-center">
+                        Selected: {activeProduct.colors[selectedColorIndex].name}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 {/* Details Section */}
