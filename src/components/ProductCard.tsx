@@ -176,35 +176,62 @@ const MinimalProductCard = ({ product }: { product: ExtendedProduct }) => {
               
               <div className="flex flex-col md:flex-row h-full">
                 {/* Modal Media Section */}
-                <div className="w-full md:w-[55%] bg-[#F9F9F9] relative flex items-center justify-center">
-                  <motion.img
-                    key="modal-image"
-                    src={currentColor?.images[0] || product.images[0]} 
-                    onLoad={() => setModalImgLoaded(true)}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: modalImgLoaded ? 1 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-full h-full object-cover"
-                    alt={product.name}
-                  />
+                <div className="w-full md:w-[55%] bg-[#F9F9F9] flex flex-col">
+                  <div className="relative w-full h-[45vh] md:h-[75vh] flex items-center justify-center p-6">
+                    <motion.img
+                      key="modal-image"
+                      src={currentColor?.images[0] || product.images[0]} 
+                      onLoad={() => setModalImgLoaded(true)}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: modalImgLoaded ? 1 : 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="max-w-full max-h-full w-auto h-auto object-contain drop-shadow-sm"
+                      alt={product.name}
+                    />
+                  </div>
+
+                  {/* Color Selection inside Modal */}
+                  <div className="p-5 md:p-8 bg-white border-t border-slate-100">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 text-center">
+                      Select Available Color
+                    </p>
+                    <div className="flex justify-center gap-3 flex-wrap">
+                      {product.colors.map((color, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setSelectedColorIndex(index)}
+                          className={`w-9 h-9 md:w-11 md:h-11 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
+                            selectedColorIndex === index
+                              ? "border-slate-900 ring-2 ring-slate-100 ring-offset-2 scale-110"
+                              : "border-slate-200"
+                          }`}
+                          style={{ backgroundColor: color.value }}
+                        >
+                          {selectedColorIndex === index && (
+                            <div className="w-2 h-2 bg-white rounded-full shadow-sm" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 {/* Details Section */}
-                <div className="w-full md:w-[45%] p-8 md:p-12 overflow-y-auto bg-white flex flex-col">
-                   <div className="mb-auto space-y-6">
-                        <div>
-                            <span className="text-[10px] font-black text-blue-600 tracking-[0.3em] uppercase block mb-2">
+                <div className="w-full md:w-[45%] p-8 md:p-14 overflow-y-auto bg-white flex flex-col">
+                   <div className="mb-auto space-y-6 md:space-y-8">
+                        <div className="space-y-3">
+                            <span className="text-[10px] font-black text-blue-700 tracking-[0.3em] uppercase">
                                 {product.type || "Collection 2024"}
                             </span>
                             <h3 className="text-3xl md:text-5xl font-serif text-slate-900 leading-tight">
                                 {product.name}
                             </h3>
-                            <p className="text-2xl font-light text-slate-900 mt-4">{product.price}</p>
+                            <p className="text-2xl font-light text-slate-900">{product.price}</p>
                         </div>
 
                         <div className="h-px bg-slate-100" />
 
-                        {/* Product Specs Table */}
+                        {/* Enhanced Product Information */}
                         <div className="grid grid-cols-2 gap-4 text-sm">
                             <div>
                                 <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Code</p>
@@ -213,6 +240,14 @@ const MinimalProductCard = ({ product }: { product: ExtendedProduct }) => {
                             <div>
                                 <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">MOQ</p>
                                 <p className="font-medium">{product.moq}</p>
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Sizes</p>
+                                <p className="font-medium">{product.sizes}</p>
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Season</p>
+                                <p className="font-medium">{product.season}</p>
                             </div>
                         </div>
 
@@ -232,6 +267,11 @@ const MinimalProductCard = ({ product }: { product: ExtendedProduct }) => {
                       <MessageCircle className="h-5 w-5" />
                       <span className="text-xs font-bold uppercase tracking-widest">Order on WhatsApp</span>
                     </a>
+                    
+                    <div className="flex justify-between items-center pt-2 px-1">
+                      <p className="text-[8px] text-slate-400 uppercase tracking-widest font-bold">Fast Delivery</p>
+                      <p className="text-[8px] text-slate-400 uppercase tracking-widest font-bold">Secure Payment</p>
+                    </div>
                   </div>
                 </div>
               </div>
