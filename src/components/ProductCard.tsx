@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, MessageCircle, ChevronLeft, ChevronRight, Volume2 } from "lucide-react";
+import { X, MessageCircle, ChevronLeft, ChevronRight, Volume2, Plus } from "lucide-react";
 import type { Product } from "@/data/products";
 
 // Extension of your Product type to support video
@@ -50,8 +50,11 @@ const MinimalProductCard = ({ product }: { product: ExtendedProduct }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* 1. Media Container (Image or Video) */}
-        <div className="relative aspect-[3/4] w-full overflow-hidden bg-zinc-100">
+        {/* 1. Media Container (Image or Video) - Clickable */}
+        <div 
+          className="relative aspect-[3/4] w-full overflow-hidden bg-zinc-100 cursor-pointer"
+          onClick={() => setSelectedId(product.id)}
+        >
           {product.videoUrl ? (
             <video
               ref={videoRef}
@@ -75,7 +78,14 @@ const MinimalProductCard = ({ product }: { product: ExtendedProduct }) => {
             }`}
           />
 
-          {/* 2. Professional Hover Overlay */}
+          {/* 2. Always-visible Quick View Indicator */}
+          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-md opacity-90 transition-opacity hover:opacity-100">
+            <div className="w-4 h-4 bg-slate-900 rounded-full flex items-center justify-center">
+              <Plus className="w-2 h-2 text-white" />
+            </div>
+          </div>
+
+          {/* 3. Professional Hover Overlay */}
           <AnimatePresence>
             {isHovered && (
               <motion.div
@@ -106,10 +116,13 @@ const MinimalProductCard = ({ product }: { product: ExtendedProduct }) => {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: 10, opacity: 0 }}
-                  onClick={() => setSelectedId(product.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedId(product.id);
+                  }}
                   className="bg-white text-black px-10 py-3 text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-black hover:text-white transition-all duration-300 shadow-xl z-10"
                 >
-                  View
+                  View Details
                 </motion.button>
               </motion.div>
             )}
