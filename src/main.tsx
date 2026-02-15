@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter basename="/luxe-pajama-hub-main/">
+  <BrowserRouter>
     <App />
   </BrowserRouter>
 );
