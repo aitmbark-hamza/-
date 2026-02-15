@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Volume2 } from 'lucide-react';
 
+// Video list with local video files
 const videoList = [
   { id: 1, url: "/videos/video1.mp4" },
   
