@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Instagram, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Instagram, MessageCircle, LucideProps } from "lucide-react";
 // Using Music2 as a placeholder for TikTok
 import { Music2 } from "lucide-react"; 
 import logoImg from "@/assets/logoImg.png"; // Your logo import
@@ -80,7 +80,7 @@ const Footer = () => {
 };
 
 // Reusable Icon Component
-const SocialIcon = ({ Icon, href, hoverClass }: { Icon: any; href: string; hoverClass: string }) => (
+const SocialIcon = ({ Icon, href, hoverClass }: { Icon: React.ComponentType<LucideProps>; href: string; hoverClass: string }) => (
   <a 
     href={href} 
     className={`w-11 h-11 flex items-center justify-center border border-zinc-300 rounded-full text-zinc-600 transition-all duration-500 ${hoverClass}`}
@@ -90,7 +90,7 @@ const SocialIcon = ({ Icon, href, hoverClass }: { Icon: any; href: string; hover
 );
 
 // Reusable Contact Item
-const ContactItem = ({ Icon, text }: { Icon: any; text: string }) => (
+const ContactItem = ({ Icon, text }: { Icon: React.ComponentType<LucideProps>; text: string }) => (
   <div className="flex items-center gap-4 group cursor-pointer">
     <div className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center group-hover:bg-white group-hover:shadow-sm transition-all">
       <Icon size={16} className="text-zinc-400 group-hover:text-zinc-900" />

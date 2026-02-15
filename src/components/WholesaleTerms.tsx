@@ -114,7 +114,7 @@ export const AnimatedGallery = () => {
 };
 
 // Reusable Section Component - Creates animated footer cards with customizable content
-const Section = ({ title, description, bg, delay, textColor = "text-gray-900" }: any) => (
+const Section = ({ title, description, bg, delay, textColor = "text-gray-900" }: { title: string; description: string; bg: string; delay: number; textColor?: string }) => (
   <motion.div 
     initial={{ opacity: 0, y: 30 }} // Start invisible and moved down
     whileInView={{ opacity: 1, y: 0 }} // Animate to visible and normal position when in viewport
