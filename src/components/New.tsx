@@ -16,7 +16,7 @@ interface Product {
   }[];
 }
 
-// Utility function to validate color values
+// Utility function to validate color values - fixed version
 const isValidColor = (color: string): boolean => {
   return /^#[0-9A-F]{6}$/i.test(color) || 
          /^rgba?\(/.test(color) || 
