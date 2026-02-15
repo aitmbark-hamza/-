@@ -10,7 +10,21 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+build
+.vite
 *.local
+.env
+
+# Video files and large media
+public/videos/
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+
+# Large images
+src/assets/hero-bg.jpg
 
 # Editor directories and files
 .vscode/*
