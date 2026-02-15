@@ -104,23 +104,16 @@ export const products: Product[] = [
     type: "شورت",
     sizes: "M - XXL",
     availability: "متوفر",
-    images: ["https://www.itysilk.com/media/catalog/p/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/1/w/1wtps237-red-1.jpg"],
+    images: ["/modl4/img6.png"],
     colors: [
-      {
-        name: "أحمر",
-        value: "#EF4444",
-        images: ["https://www.itysilk.com/media/catalog/p/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/1/w/1wtps237-red-1.jpg"]
-      },
-      {
-        name: "أزرق",
-        value: "#3B82F6",
-        images: ["https://www.itysilk.com/media/catalog/p/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/1/w/1wtps237-blue-1.jpg"]
-      },
-      {
-        name: "أسود",
-        value: "#000000",
-        images: ["https://www.itysilk.com/media/catalog/p/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/1/w/1wtps237-black-1.jpg"]
-      }
+       { name: "Brown", value: "#704900b1", images: ["/modl4/img1.png"] },
+      { name: "Pink", value: "#EC4899", images: ["/modl4/img2.png"] },
+      { name: "Gold", value: "#c08922b1", images: ["/modl4/img3.png"] },
+      { name: "Purple", value: "#934dccb1", images: ["/modl4/img4.png"] },
+      { name: "Sky", value: "#70a7e2ff", images: ["/modl4/img5.png"] },
+      { name: "Red", value: "#ff0404c0", images: ["/modl4/img6.png"] },
+      { name: "Sage", value: "rgba(117, 155, 150, 1)", images: ["/modl4/img7.png"] },
+      { name: "Cream", value: "rgba(222, 223, 154, 0.86)", images: ["/modl4/img8.png"] },
     ],
     description: "شورت نوم قطني مريح، مناسب لفصل الصيف.",
     dateAdded: daysAgo(10),
