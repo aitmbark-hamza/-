@@ -16,7 +16,6 @@ interface Product {
   }[];
 }
 
-// Utility function to validate color values - fixed version
 const isValidColor = (color: string): boolean => {
   return /^#[0-9A-F]{6}$/i.test(color) || 
          /^rgba?\(/.test(color) || 
@@ -36,7 +35,7 @@ const products: Product[] = [
       { name: "Pink", value: "#3B82F6", images: ["/modl1/img1.jpg"] },
       { name: "Blue", value: "#00cb84ff", images: ["/modl1/img2.jpg"] },
       { name: "White", value: "#EC4899", images: ["/modl1/img3.jpg"] },
-      { name: "White", value: "#ec7948ff", images: ["/modl1/img4.jpg"] },
+      { name: "Orange", value: "#ec7948ff", images: ["/modl1/img4.jpg"] },
     ]
   },
   {
@@ -59,12 +58,12 @@ const products: Product[] = [
     category: "SALE",
     image: "/modl3/imag1.jpg",
     colors: [
-      { name: "White", value: "black", images: ["/modl3/imag1.png"] },
-      { name: "White", value: "#009fcbff", images: ["/modl3/imag2.png"] },
-      { name: "White", value: "#b78dcaff", images: ["/modl3/imag3.png"] },
-      { name: "White", value: "#a9963aff", images: ["/modl3/imag4.png"] },
-      { name: "White", value: "#129b6bb8", images: ["/modl3/imag5.png"] },
-      { name: "White", value: "#704900b1", images: ["/modl3/imag6.png"] },
+      { name: "Black", value: "black", images: ["/modl3/imag1.png"] },
+      { name: "Teal", value: "#009fcbff", images: ["/modl3/imag2.png"] },
+      { name: "Lavender", value: "#b78dcaff", images: ["/modl3/imag3.png"] },
+      { name: "Gold", value: "#a9963aff", images: ["/modl3/imag4.png"] },
+      { name: "Green", value: "#129b6bb8", images: ["/modl3/imag5.png"] },
+      { name: "Brown", value: "#704900b1", images: ["/modl3/imag6.png"] },
     ]
   },
   {
@@ -74,14 +73,14 @@ const products: Product[] = [
     category: "NEW",
     image: "/modl4/img1.png",
     colors: [
-      { name: "White", value: "#704900b1", images: ["/modl4/img1.png"] },
-      { name: "White", value: "#EC4899", images: ["/modl4/img2.png"] },
-      { name: "White", value: "#c08922b1", images: ["/modl4/img3.png"] },
-      { name: "White", value: "#934dccb1", images: ["/modl4/img4.png"] },
-      { name: "White", value: "#70a7e2ff", images: ["/modl4/img5.png"] },
-      { name: "White", value: "#ff0404c0", images: ["/modl4/img6.png"] },
-      { name: "White", value: "rgba(117, 155, 150, 1)", images: ["/modl4/img7.png"] },
-      { name: "White", value: "rgba(222, 223, 154, 0.86)", images: ["/modl4/img8.png"] },
+      { name: "Brown", value: "#704900b1", images: ["/modl4/img1.png"] },
+      { name: "Pink", value: "#EC4899", images: ["/modl4/img2.png"] },
+      { name: "Gold", value: "#c08922b1", images: ["/modl4/img3.png"] },
+      { name: "Purple", value: "#934dccb1", images: ["/modl4/img4.png"] },
+      { name: "Sky", value: "#70a7e2ff", images: ["/modl4/img5.png"] },
+      { name: "Red", value: "#ff0404c0", images: ["/modl4/img6.png"] },
+      { name: "Sage", value: "rgba(117, 155, 150, 1)", images: ["/modl4/img7.png"] },
+      { name: "Cream", value: "rgba(222, 223, 154, 0.86)", images: ["/modl4/img8.png"] },
     ]
   },
 ];
@@ -89,21 +88,17 @@ const products: Product[] = [
 export const BestSellers: React.FC = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [selectedColors, setSelectedColors] = useState<{ [key: number]: number }>({});
+  
   const activeProduct = products.find(p => p.id === selectedId);
   const selectedColorIndex = selectedId ? selectedColors[selectedId] || 0 : 0;
 
-  // Prevent background scroll when modal is open
   useEffect(() => {
     if (selectedId) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
-    
-    // Cleanup function to restore scroll on component unmount
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
+    return () => { document.body.style.overflow = 'unset'; };
   }, [selectedId]);
 
   return (
@@ -113,8 +108,7 @@ export const BestSellers: React.FC = () => {
         {/* --- LEFT SIDEBAR --- */}
         <div className="lg:w-1/4 flex flex-col justify-between">
           <div className="space-y-8 md:space-y-12 text-right lg:text-left">
-            <img src={logoImg} alt="Brand Logo" className="w-16 md:w-20 h-auto opacity-90 mx-auto lg:mx-0" />
-
+            <img src={logoImg} alt="Logo" className="w-16 md:w-20 h-auto opacity-90 mx-auto lg:mx-0" />
             <div className="space-y-4 md:space-y-6">
               <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-blue-800 block">
                 اختيارات الموسم
@@ -133,8 +127,7 @@ export const BestSellers: React.FC = () => {
         <div className="lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
           {products.map((product) => {
             const currentColorIndex = selectedColors[product.id] || 0;
-            const currentColor = product.colors[currentColorIndex];
-            const currentImage = currentColor?.images[0] || product.image;
+            const currentImage = product.colors[currentColorIndex]?.images[0] || product.image;
 
             return (
               <div key={product.id} className="flex flex-col group">
@@ -148,13 +141,11 @@ export const BestSellers: React.FC = () => {
                     alt={product.title}
                     className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
                   />
-
                   <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <div className="bg-white p-4 rounded-full shadow-2xl scale-90 group-hover:scale-100 transition-transform">
                       <Plus className="w-5 h-5 text-slate-900" />
                     </div>
                   </div>
-
                   <div className="absolute top-4 left-4">
                     <span className="bg-white px-2 py-1 text-[8px] md:text-[9px] font-black tracking-widest text-slate-900 uppercase">
                       {product.category}
@@ -162,7 +153,6 @@ export const BestSellers: React.FC = () => {
                   </div>
                 </motion.div>
 
-                {/* Color Swatches */}
                 <div className="mt-3 flex justify-center gap-1.5">
                   {product.colors.map((color, index) => (
                     <button
@@ -171,13 +161,10 @@ export const BestSellers: React.FC = () => {
                         e.stopPropagation();
                         setSelectedColors(prev => ({ ...prev, [product.id]: index }));
                       }}
-                      className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 transition-all duration-200 hover:scale-110 ${currentColorIndex === index
-                        ? "border-slate-800 ring-1 ring-slate-300 ring-offset-1"
-                        : "border-slate-300"
-                        }`}
+                      className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 transition-all duration-200 ${
+                        currentColorIndex === index ? "border-slate-800 ring-1 ring-slate-300 ring-offset-1" : "border-slate-300"
+                      }`}
                       style={{ backgroundColor: isValidColor(color.value) ? color.value : '#ccc' }}
-                      title={color.name}
-                      aria-label={`Select ${color.name} color`}
                     />
                   ))}
                 </div>
@@ -202,104 +189,105 @@ export const BestSellers: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/40 backdrop-blur-sm md:p-6"
+            className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/60 backdrop-blur-md md:p-6"
             onClick={() => setSelectedId(null)}
           >
-            {/* Modal Content Card */}
             <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="bg-white w-full max-w-5xl h-[90vh] md:h-auto md:max-h-[90vh] rounded-t-3xl md:rounded-none overflow-y-auto relative"
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="bg-white w-full max-w-5xl h-[92vh] md:h-auto md:max-h-[90vh] rounded-t-[2.5rem] md:rounded-3xl overflow-y-auto relative shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Floating Close Button for Mobile */}
+              {/* Close Button */}
               <button
                 onClick={() => setSelectedId(null)}
-                className="absolute top-4 right-4 z-50 p-2 bg-white/80 backdrop-blur-md rounded-full md:p-3 hover:bg-slate-100"
+                className="absolute top-5 right-5 z-50 p-2 bg-white/90 backdrop-blur rounded-full shadow-lg hover:bg-slate-100 transition-colors"
               >
-                <X className="w-5 h-5 md:w-6 md:h-6 text-slate-900" />
+                <X className="w-5 h-5 text-slate-900" />
               </button>
 
-              <div className="flex flex-col md:flex-row items-stretch">
+              <div className="flex flex-col md:flex-row items-stretch min-h-full">
+                
+                {/* Image Section - Fixed for Mobile Visibility */}
+                <div className="w-full md:w-1/2 bg-[#F7F7F7] flex flex-col">
+                  <div className="relative w-full h-[45vh] md:h-[75vh] flex items-center justify-center p-6">
+                    <motion.img
+                      layoutId={`img-${selectedId}`}
+                      src={activeProduct.colors[selectedColorIndex]?.images[0] || activeProduct.image}
+                      className="max-w-full max-h-full w-auto h-auto object-contain drop-shadow-sm"
+                      alt={activeProduct.title}
+                    />
+                  </div>
 
-                {/* Image Section */}
-                <div className="w-full md:w-1/2 bg-[#F9F9F9]">
-                  <motion.img
-                    layoutId={`img-${selectedId}`}
-                    src={activeProduct.colors[selectedColorIndex]?.images[0] || activeProduct.image}
-                    className="w-full h-[40vh] md:h-[80vh] object-cover md:object-contain"
-                    alt={activeProduct.title}
-                  />
-
-                  {/* Color Swatches in Modal */}
-                  <div className="p-6 bg-white border-t border-slate-100">
-                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 text-center">
-                      Select Color
-                    </h4>
-                    <div className="flex justify-center gap-3">
+                  {/* Color Selection inside Modal */}
+                  <div className="p-5 md:p-8 bg-white border-t border-slate-100">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 text-center">
+                      Select Available Color
+                    </p>
+                    <div className="flex justify-center gap-3 flex-wrap">
                       {activeProduct.colors.map((color, index) => (
                         <button
                           key={index}
                           onClick={() => setSelectedColors(prev => ({ ...prev, [selectedId!]: index }))}
-                          className={`w-10 h-10 rounded-full border-2 transition-all duration-300 hover:scale-110 flex items-center justify-center ${selectedColorIndex === index
-                            ? "border-slate-900 ring-2 ring-slate-200 ring-offset-2"
-                            : "border-slate-300"
-                            }`}
+                          className={`w-9 h-9 md:w-11 md:h-11 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
+                            selectedColorIndex === index
+                              ? "border-slate-900 ring-2 ring-slate-100 ring-offset-2 scale-110"
+                              : "border-slate-200"
+                          }`}
                           style={{ backgroundColor: isValidColor(color.value) ? color.value : '#ccc' }}
-                          title={color.name}
-                          aria-label={`Select ${color.name} color`}
                         >
                           {selectedColorIndex === index && (
-                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                            <div className="w-2 h-2 bg-white rounded-full shadow-sm" />
                           )}
                         </button>
                       ))}
                     </div>
-                    {activeProduct.colors[selectedColorIndex] && (
-                      <p className="text-sm text-slate-600 mt-3 text-center">
-                        Selected: {activeProduct.colors[selectedColorIndex].name}
-                      </p>
-                    )}
                   </div>
                 </div>
 
                 {/* Details Section */}
-                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center space-y-6 md:space-y-10 text-left">
-                  <div className="space-y-2 md:space-y-4">
+                <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center space-y-6 md:space-y-8">
+                  <div className="space-y-3">
                     <span className="text-[10px] font-black text-blue-700 tracking-[0.3em] uppercase">
                       {activeProduct.category}
                     </span>
-                    <h3 className="text-3xl md:text-5xl lg:text-6xl font-serif text-slate-900 leading-tight tracking-tighter">
+                    <h3 className="text-3xl md:text-5xl font-serif text-slate-900 leading-tight">
                       {activeProduct.title}
                     </h3>
                     <div className="flex items-center gap-4 pt-2">
                       <p className="text-2xl md:text-3xl font-light text-slate-900">{activeProduct.price}</p>
-                      <span className="text-[9px] bg-slate-100 px-2 py-1 font-bold text-slate-500 uppercase tracking-widest">In Stock</span>
+                      <span className="text-[9px] bg-green-50 px-2 py-1 font-bold text-green-700 uppercase tracking-widest border border-green-100">
+                        In Stock
+                      </span>
                     </div>
                   </div>
 
-                  <div className="h-[1px] w-full bg-slate-100" />
+                  <div className="h-px w-full bg-slate-100" />
 
                   <div className="space-y-4">
+                    <p className="text-slate-500 text-sm md:text-base leading-relaxed">
+                      Premium quality fabric designed for ultimate comfort and style. Perfect for your daily relaxation.
+                    </p>
+                    
                     <a
                       href={`https://wa.me/+212660628947?text=أريد%20طلب%20منتج:%20${activeProduct.title}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group relative flex items-center justify-center w-full bg-slate-900 h-14 md:h-16 text-white transition-all hover:bg-slate-800"
+                      className="flex items-center justify-center w-full bg-slate-900 h-14 md:h-16 text-white transition-all hover:bg-slate-800 rounded-xl"
                     >
-                      <div className="flex items-center gap-3 z-10">
+                      <div className="flex items-center gap-3">
                         <MessageCircle className="h-5 w-5" />
-                        <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em]">
+                        <span className="text-[11px] font-black uppercase tracking-[0.2em]">
                           Order via WhatsApp
                         </span>
                       </div>
                     </a>
 
-                    <div className="flex justify-between items-center px-1">
-                      <p className="text-[8px] text-slate-400 uppercase tracking-widest font-bold">Secure Checkout</p>
-                      <p className="text-[8px] text-slate-400 uppercase tracking-widest font-bold">Global Shipping</p>
+                    <div className="flex justify-between items-center pt-2 px-1">
+                      <p className="text-[8px] text-slate-400 uppercase tracking-widest font-bold">Fast Delivery</p>
+                      <p className="text-[8px] text-slate-400 uppercase tracking-widest font-bold">Secure Payment</p>
                     </div>
                   </div>
                 </div>
@@ -312,4 +300,5 @@ export const BestSellers: React.FC = () => {
     </section>
   );
 };
+
 export default BestSellers;

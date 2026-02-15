@@ -1,21 +1,35 @@
+# =========================
 # Logs
+# =========================
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
+# =========================
+# Dependencies (لا يجب رفعها)
+# =========================
 node_modules
+
+# =========================
+# Build output (يتصاوب بوحدو)
+# =========================
 dist
 dist-ssr
 build
 .vite
-*.local
-.env
 
-# Video files and large media
+# =========================
+# Environment files (حساسة)
+# =========================
+.env
+*.local
+
+# =========================
+# Ignore large videos فقط
+# =========================
 public/videos/
 *.mp4
 *.avi
@@ -23,10 +37,15 @@ public/videos/
 *.wmv
 *.flv
 
-# Large images
-# src/assets/hero-bg.jpg
+# =========================
+# Allow project images ✅
+# =========================
+!src/assets/
+!public/images/
 
-# Editor directories and files
+# =========================
+# Editor / OS files
+# =========================
 .vscode/*
 !.vscode/extensions.json
 .idea
