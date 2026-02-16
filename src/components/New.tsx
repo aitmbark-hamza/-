@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, X, MessageCircle } from 'lucide-react';
+import { Plus, X, MessageCircle, ShoppingBag } from 'lucide-react';
 import logoImg from "@/assets/logoImg.png";
 
 interface Product {
@@ -19,9 +19,7 @@ interface Product {
 const isValidColor = (color: string): boolean => {
   return /^#[0-9A-F]{6}$/i.test(color) || 
          /^rgba?\(/.test(color) || 
-         color === 'black' || 
-         color === 'white' ||
-         color === 'transparent';
+         ['black', 'white', 'transparent'].includes(color.toLowerCase());
 };
 
 const products: Product[] = [
@@ -62,13 +60,11 @@ const products: Product[] = [
       { name: "Teal", value: "#009fcbff", images: ["/modl3/imag2.png"] },
       { name: "Lavender", value: "#b78dcaff", images: ["/modl3/imag3.png"] },
       { name: "Gold", value: "#a9963aff", images: ["/modl3/imag4.png"] },
-      { name: "Green", value: "#129b6bb8", images: ["/modl3/imag5.png"] },
-      { name: "Brown", value: "#704900b1", images: ["/modl3/imag6.png"] },
     ]
   },
   {
     id: 4,
-    title: "White Scalloped Tank",
+    title: "White Scalloped",
     price: "$24.00",
     category: "NEW",
     image: "/modl4/img1.png",
@@ -77,10 +73,6 @@ const products: Product[] = [
       { name: "Pink", value: "#EC4899", images: ["/modl4/img2.png"] },
       { name: "Gold", value: "#c08922b1", images: ["/modl4/img3.png"] },
       { name: "Purple", value: "#934dccb1", images: ["/modl4/img4.png"] },
-      { name: "Sky", value: "#70a7e2ff", images: ["/modl4/img5.png"] },
-      { name: "Red", value: "#ff0404c0", images: ["/modl4/img6.png"] },
-      { name: "Sage", value: "rgba(117, 155, 150, 1)", images: ["/modl4/img7.png"] },
-      { name: "Cream", value: "rgba(222, 223, 154, 0.86)", images: ["/modl4/img8.png"] },
     ]
   },
 ];
@@ -94,124 +86,106 @@ export const BestSellers: React.FC = () => {
   const activeProduct = products.find(p => p.id === selectedId);
   const selectedColorIndex = selectedId ? selectedColors[selectedId] || 0 : 0;
 
-  /* ===============================
-     PRELOAD ALL IMAGES (KEY FIX)
-  =============================== */
   useEffect(() => {
     const preload = (src: string) => {
       const img = new Image();
       img.src = src;
     };
-
     products.forEach(product => {
-      product.colors.forEach(color => {
-        color.images.forEach(image => preload(image));
-      });
+      product.colors.forEach(color => color.images.forEach(image => preload(image)));
       preload(product.image);
     });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
-  /* Reset fade when color changes */
   useEffect(() => {
     if (selectedId) {
-      setImgLoaded(prev => ({ ...prev, [selectedId]: false }));
       setModalImgLoaded(false);
-    }
-  }, [selectedColorIndex, selectedId]);
-
-  useEffect(() => {
-    if (selectedId) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
     return () => { document.body.style.overflow = 'unset'; };
-  }, [selectedId]);
+  }, [selectedId, selectedColorIndex]);
 
   return (
-    <section id="new" className="px-4 md:px-6 py-12 md:py-20 max-w-[1600px] mx-auto bg-white font-sans">
-      <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
+    <section id="new" className="px-2 md:px-6 py-10 md:py-20 max-w-[1600px] mx-auto bg-white">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
 
-        {/* --- LEFT SIDEBAR --- */}
-        <div className="lg:w-1/4 flex flex-col justify-between">
-          <div className="space-y-8 md:space-y-12 text-right lg:text-left">
-            <img src={logoImg} alt="Logo" className="w-16 md:w-20 h-auto opacity-90 mx-auto lg:mx-0" />
-            <div className="space-y-4 md:space-y-6">
-              <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] text-blue-800 block">
-                اختيارات الموسم
-              </span>
-              <h2 className="text-4xl md:text-6xl font-serif text-slate-900 leading-[0.9] tracking-tighter">
-                الأكثر <br /> طلباً
-              </h2>
-              <p className="text-slate-500 text-base md:text-lg leading-relaxed max-w-[260px] mx-auto lg:mx-0">
-                تشكيلة منتقاة من أكثر البيجامات مبيعاً هذا الموسم
-              </p>
-            </div>
+        {/* --- SIDEBAR --- */}
+        <div className="w-full lg:w-1/4 flex flex-col space-y-4 md:space-y-8 text-center lg:text-left px-2">
+          <img src={logoImg} alt="Logo" className="w-12 md:w-20 h-auto opacity-90 mx-auto lg:mx-0" />
+          <div className="space-y-2 md:space-y-4">
+            <span className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] text-blue-800 block">
+              SEASON SELECTIONS
+            </span>
+            <h2 className="text-3xl md:text-6xl font-serif text-slate-900 leading-none tracking-tighter">
+              Best <br className="hidden lg:block" /> Sellers
+            </h2>
+            <p className="text-slate-500 text-xs md:text-base leading-relaxed max-w-[280px] mx-auto lg:mx-0">
+              A curated selection of our most loved pieces this season.
+            </p>
           </div>
         </div>
 
-        {/* --- PRODUCT GRID --- */}
-        <div className="lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        {/* --- PRODUCT GRID (Fixed 4 Columns) --- */}
+        <div className="w-full lg:w-3/4 grid grid-cols-4 gap-2 md:gap-6">
           {products.map((product) => {
-            const currentColorIndex = selectedColors[product.id] || 0;
-            const currentImage = product.colors[currentColorIndex]?.images[0] || product.image;
+            const currentColorIdx = selectedColors[product.id] || 0;
+            const currentImg = product.colors[currentColorIdx]?.images[0] || product.image;
 
             return (
-              <div key={product.id} className="flex flex-col group">
+              <div key={product.id} className="flex flex-col group min-w-0">
                 <motion.div
-                  layoutId={`img-${product.id}`}
-                  className="relative overflow-hidden bg-[#F9F9F9] h-[450px] md:h-[600px] cursor-pointer"
+                  className="relative overflow-hidden bg-[#F9F9F9] h-[180px] sm:h-[350px] md:h-[550px] cursor-pointer"
                   onClick={() => setSelectedId(product.id)}
                 >
                   <motion.img
-                    key="product-image"
-                    src={currentImage}
+                    src={currentImg}
                     alt={product.title}
-                    loading="eager"
-                    decoding="async"
                     onLoad={() => setImgLoaded(prev => ({ ...prev, [product.id]: true }))}
                     initial={{ opacity: 0 }}
-                    animate={{ 
-                      opacity: imgLoaded[product.id] ? 1 : 0,
-                      scale: 1 
-                    }}
-                    transition={{ duration: 0.35 }}
-                    className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
+                    animate={{ opacity: imgLoaded[product.id] ? 1 : 0 }}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <div className="bg-white p-4 rounded-full shadow-2xl scale-90 group-hover:scale-100 transition-transform">
-                      <Plus className="w-5 h-5 text-slate-900" />
-                    </div>
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-white px-2 py-1 text-[8px] md:text-[9px] font-black tracking-widest text-slate-900 uppercase">
+                  
+                  {/* Category Badge */}
+                  <div className="absolute top-1 left-1 sm:top-3 sm:left-3">
+                    <span className="bg-white/90 backdrop-blur-sm px-1 py-0.5 text-[6px] sm:text-[9px] font-bold tracking-tighter text-slate-900 uppercase">
                       {product.category}
                     </span>
                   </div>
+
+                  {/* Desktop Hover Quick View */}
+                  <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center">
+                    <div className="bg-white p-3 rounded-full shadow-xl">
+                      <Plus className="w-5 h-5 text-slate-900" />
+                    </div>
+                  </div>
                 </motion.div>
 
-                <div className="mt-3 flex justify-center gap-1.5">
-                  {product.colors.map((color, index) => (
+                {/* Color Dots */}
+                <div className="mt-2 flex justify-center gap-1">
+                  {product.colors.map((color, idx) => (
                     <button
-                      key={index}
+                      key={idx}
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelectedColors(prev => ({ ...prev, [product.id]: index }));
+                        setSelectedColors(prev => ({ ...prev, [product.id]: idx }));
                       }}
-                      className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 transition-all duration-200 ${
-                        currentColorIndex === index ? "border-slate-800 ring-1 ring-slate-300 ring-offset-1" : "border-slate-300"
+                      className={`w-2.5 h-2.5 sm:w-4 sm:h-4 rounded-full border transition-all ${
+                        currentColorIdx === idx ? "border-slate-800 ring-1 ring-offset-1 ring-slate-200" : "border-transparent"
                       }`}
-                      style={{ backgroundColor: isValidColor(color.value) ? color.value : '#ccc' }}
+                      style={{ backgroundColor: color.value }}
                     />
                   ))}
                 </div>
 
-                <div className="mt-3 flex justify-between items-start px-1">
-                  <div className="space-y-1 text-left">
-                    <h3 className="text-[11px] md:text-[12px] font-bold text-slate-900 uppercase tracking-wider">{product.title}</h3>
-                    <p className="text-[10px] text-slate-400 uppercase tracking-widest">Core Collection</p>
-                  </div>
-                  <span className="text-sm font-light text-slate-900">{product.price}</span>
+                {/* Info Area */}
+                <div className="mt-2 text-center px-1">
+                  <h3 className="text-[9px] sm:text-[13px] font-bold text-slate-900 uppercase truncate">
+                    {product.title}
+                  </h3>
+                  <p className="text-[10px] sm:text-sm font-light text-slate-500">{product.price}</p>
                 </div>
               </div>
             );
@@ -219,121 +193,81 @@ export const BestSellers: React.FC = () => {
         </div>
       </div>
 
-      {/* --- MODAL --- */}
+      {/* --- RESPONSIVE MODAL --- */}
       <AnimatePresence>
         {selectedId && activeProduct && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/60 backdrop-blur-md md:p-6"
+            className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm p-0 md:p-6"
             onClick={() => setSelectedId(null)}
           >
             <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="bg-white w-full max-w-5xl h-[92vh] md:h-auto md:max-h-[90vh] rounded-t-[2.5rem] md:rounded-3xl overflow-y-auto relative shadow-2xl"
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="bg-white w-full max-w-5xl h-[90vh] md:h-auto md:max-h-[85vh] rounded-t-[2rem] md:rounded-3xl overflow-hidden relative"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
               <button
                 onClick={() => setSelectedId(null)}
-                className="absolute top-5 right-5 z-50 p-2 bg-white/90 backdrop-blur rounded-full shadow-lg hover:bg-slate-100 transition-colors"
+                className="absolute top-4 right-4 z-50 p-2 bg-white/80 rounded-full md:hover:bg-slate-100 transition-colors"
               >
                 <X className="w-5 h-5 text-slate-900" />
               </button>
 
-              <div className="flex flex-col md:flex-row items-stretch min-h-full">
-                
-                {/* Image Section - Fixed for Mobile Visibility */}
-                <div className="w-full md:w-1/2 bg-[#F7F7F7] flex flex-col">
-                  <div className="relative w-full h-[45vh] md:h-[75vh] flex items-center justify-center p-6">
-                    <motion.img
-                      key="modal-image"
-                      layoutId={`img-${selectedId}`}
-                      src={activeProduct.colors[selectedColorIndex]?.images[0] || activeProduct.image}
-                      onLoad={() => setModalImgLoaded(true)}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: modalImgLoaded ? 1 : 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="max-w-full max-h-full w-auto h-auto object-contain drop-shadow-sm"
-                      alt={activeProduct.title}
-                    />
-                  </div>
-
-                  {/* Color Selection inside Modal */}
-                  <div className="p-5 md:p-8 bg-white border-t border-slate-100">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 text-center">
-                      Select Available Color
-                    </p>
-                    <div className="flex justify-center gap-3 flex-wrap">
-                      {activeProduct.colors.map((color, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setSelectedColors(prev => ({ ...prev, [selectedId!]: index }))}
-                          className={`w-9 h-9 md:w-11 md:h-11 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
-                            selectedColorIndex === index
-                              ? "border-slate-900 ring-2 ring-slate-100 ring-offset-2 scale-110"
-                              : "border-slate-200"
-                          }`}
-                          style={{ backgroundColor: isValidColor(color.value) ? color.value : '#ccc' }}
-                        >
-                          {selectedColorIndex === index && (
-                            <div className="w-2 h-2 bg-white rounded-full shadow-sm" />
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+              <div className="flex flex-col md:flex-row h-full">
+                {/* Modal Media */}
+                <div className="w-full md:w-1/2 bg-[#F6F6F6] h-2/5 md:h-auto flex items-center justify-center p-8">
+                  <motion.img
+                    src={activeProduct.colors[selectedColorIndex]?.images[0] || activeProduct.image}
+                    animate={{ opacity: modalImgLoaded ? 1 : 0 }}
+                    onLoad={() => setModalImgLoaded(true)}
+                    className="max-w-full max-h-full object-contain mix-blend-multiply"
+                  />
                 </div>
 
-                {/* Details Section */}
-                <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center space-y-6 md:space-y-8">
-                  <div className="space-y-3">
-                    <span className="text-[10px] font-black text-blue-700 tracking-[0.3em] uppercase">
-                      {activeProduct.category}
-                    </span>
-                    <h3 className="text-3xl md:text-5xl font-serif text-slate-900 leading-tight">
-                      {activeProduct.title}
-                    </h3>
-                    <div className="flex items-center gap-4 pt-2">
-                      <p className="text-2xl md:text-3xl font-light text-slate-900">{activeProduct.price}</p>
-                      <span className="text-[9px] bg-green-50 px-2 py-1 font-bold text-green-700 uppercase tracking-widest border border-green-100">
-                        In Stock
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="h-px w-full bg-slate-100" />
-
+                {/* Modal Details */}
+                <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-between overflow-y-auto bg-white">
                   <div className="space-y-4">
-                    <p className="text-slate-500 text-sm md:text-base leading-relaxed">
-                      Premium quality fabric designed for ultimate comfort and style. Perfect for your daily relaxation.
-                    </p>
+                    <span className="text-[10px] font-bold text-blue-600 tracking-widest uppercase">{activeProduct.category}</span>
+                    <h2 className="text-2xl md:text-4xl font-serif text-slate-900">{activeProduct.title}</h2>
+                    <p className="text-xl font-light text-slate-800">{activeProduct.price}</p>
                     
-                    <a
-                      href={`https://wa.me/+212660628947?text=أريد%20طلب%20منتج:%20${activeProduct.title}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center w-full bg-slate-900 h-14 md:h-16 text-white transition-all hover:bg-slate-800 rounded-xl"
-                    >
-                      <div className="flex items-center gap-3">
-                        <MessageCircle className="h-5 w-5" />
-                        <span className="text-[11px] font-black uppercase tracking-[0.2em]">
-                          Order via WhatsApp
-                        </span>
+                    <div className="pt-4">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Available Colors</p>
+                      <div className="flex gap-3">
+                        {activeProduct.colors.map((color, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setSelectedColors(prev => ({ ...prev, [selectedId!]: idx }))}
+                            className={`w-8 h-8 rounded-full border-2 transition-transform ${
+                              selectedColorIndex === idx ? "border-slate-900 scale-110" : "border-transparent"
+                            }`}
+                            style={{ backgroundColor: color.value }}
+                          />
+                        ))}
                       </div>
-                    </a>
+                    </div>
+                  </div>
 
-                    <div className="flex justify-between items-center pt-2 px-1">
-                      <p className="text-[8px] text-slate-400 uppercase tracking-widest font-bold">Fast Delivery</p>
-                      <p className="text-[8px] text-slate-400 uppercase tracking-widest font-bold">Secure Payment</p>
+                  <div className="mt-8 space-y-4">
+                    <a
+                      href={`https://wa.me/+212660628947?text=Hello,%20I%20want%20to%20order%20the%20${activeProduct.title}`}
+                      target="_blank"
+                      className="flex items-center justify-center w-full bg-slate-900 h-14 text-white rounded-xl gap-3 hover:bg-black transition-colors"
+                    >
+                      <MessageCircle size={18} />
+                      <span className="text-xs font-bold uppercase tracking-widest">Order via WhatsApp</span>
+                    </a>
+                    <div className="flex justify-between text-[8px] font-bold text-slate-400 uppercase tracking-widest px-2">
+                      <span>Premium Quality</span>
+                      <span>Secure Checkout</span>
                     </div>
                   </div>
                 </div>
-
               </div>
             </motion.div>
           </motion.div>
