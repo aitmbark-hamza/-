@@ -74,8 +74,14 @@ export const AnimatedGallery = () => {
               className="relative max-w-4xl w-full"
             >
               {/* Close button in top-right corner */}
-              <button className="absolute -top-12 right-0 text-white">
-                <X size={32} />
+              <button 
+                className="absolute top-4 right-4 text-white bg-black/50 rounded-full p-2 z-[60] md:top-2 md:right-2 md:bg-transparent"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedId(null);
+                }}
+              >
+                <X size={24} className="md:w-8 md:h-8" />
               </button>
               {/* Full-size image display */}
               <img 
