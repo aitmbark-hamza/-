@@ -28,15 +28,6 @@ build
 *.local
 
 # =========================
-# Ignore large videos فقط
-# =========================
-public/videos/
-*.avi
-*.mov
-*.wmv
-*.flv
-
-# =========================
 # Allow project images ✅
 # =========================
 !src/assets/
