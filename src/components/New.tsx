@@ -116,13 +116,13 @@ export const BestSellers: React.FC = () => {
           <img src={logoImg} alt="Logo" className="w-12 md:w-20 h-auto opacity-90 mx-auto lg:mx-0" />
           <div className="space-y-2 md:space-y-4">
             <span className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] text-blue-800 block">
-              SEASON SELECTIONS
+            اختيارات الموسم
             </span>
             <h2 className="text-3xl md:text-6xl font-serif text-slate-900 leading-none tracking-tighter">
-              Best <br className="hidden lg:block" /> Sellers
+             الأكثر <br className="hidden lg:block" /> مبيعًا
             </h2>
             <p className="text-slate-500 text-xs md:text-base leading-relaxed max-w-[280px] mx-auto lg:mx-0">
-              A curated selection of our most loved pieces this season.
+            مجموعة منتقاة بعناية من أكثر القطع رواجًا وإقبالًا هذا الموسم
             </p>
           </div>
         </div>

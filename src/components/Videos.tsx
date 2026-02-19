@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useState, useRef, MouseEvent, useEffect } from 'react';
 import AnimatedSection from '@/components/AnimatedSection';
 
 const videoData = [
