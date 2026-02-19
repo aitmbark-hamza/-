@@ -2,10 +2,10 @@ import { useState, useRef, MouseEvent, useEffect } from 'react';
 import AnimatedSection from '@/components/AnimatedSection';
 
 const videoData = [
-  { id: 1, src: '/video1.mp4', poster: '/path/to/poster1.jpg', title: "L'atmosphère" },
-  { id: 2, src: '/video2.mp4', poster: '/path/to/poster2.jpg', title: 'Notre Saison' },
-  { id: 3, src: '/video3.mp4', poster: '/path/to/poster3.jpg', title: 'Collaboration' },
-  { id: 4, src: '/video4.mp4', poster: '/path/to/poster4.jpg', title: 'Efficacité' }
+  { id: 1, src: '/videos/video1.mp4', poster: '', title: "L'atmosphère" },
+  { id: 2, src: '/videos/video2.mp4', poster: '', title: 'Notre Saison' },
+  { id: 3, src: '/videos/video3.mp4', poster: '', title: 'Collaboration' },
+  { id: 4, src: '/videos/video4.mp4', poster: '', title: 'Efficacité' }
 ];
 
 
