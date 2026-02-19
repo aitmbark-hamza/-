@@ -31,7 +31,6 @@ build
 # Ignore large videos فقط
 # =========================
 public/videos/
-*.mp4
 *.avi
 *.mov
 *.wmv
