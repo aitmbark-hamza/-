@@ -68,7 +68,7 @@ const Footer = () => {
           <div className="lg:col-span-4">
             <h4 className="text-zinc-900 text-[11px] font-bold uppercase tracking-[0.3em] mb-8">معلومات التواصل</h4>
             <div className="space-y-6">
-              <ContactItem Icon={Phone} text="+212 660 628947" />
+              <ContactItem Icon={Phone} text="+212 754 717702" />
               <ContactItem Icon={Mail} text="info@pijamaplus.ma" />
               <ContactItem Icon={MapPin} text="الدار البيضاء، المغرب" />
             </div>

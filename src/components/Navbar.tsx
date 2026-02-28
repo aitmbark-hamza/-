@@ -85,7 +85,7 @@ const Navbar = () => {
 
         {/* Action Button */}
         <div className="hidden lg:flex items-center gap-6">
-          <a href="https://wa.me/+212660628947" target="_blank">
+          <a href="https://wa.me/+212754717702" target="_blank">
             <Button 
               className={`rounded-none h-14 px-10 text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-500 ${
                 scrolled 

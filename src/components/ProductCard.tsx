@@ -174,7 +174,7 @@ const MinimalProductCard = ({ product }: { product: ExtendedProduct }) => {
                 {/* Sticky Mobile Action Area */}
                 <div className="mt-8 pt-6 border-t border-slate-100">
                   <a
-                    href={`https://wa.me/+212660628947?text=Product:%20${product.name}`}
+                    href={`https://wa.me/+212754717702?text=Product:%20${product.name}`}
                     target="_blank"
                     className="flex items-center justify-center w-full bg-slate-900 h-14 text-white rounded-full sm:rounded-none gap-3 hover:bg-black transition-all"
                   >

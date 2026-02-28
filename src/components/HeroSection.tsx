@@ -64,7 +64,7 @@ const HeroSection = () => {
             transition={{ delay: 1.2 }}
             className="flex flex-col sm:flex-row gap-6 items-center"
           >
-            <a href="https://wa.me/+212660628947" target="_blank" className="w-full sm:w-auto">
+            <a href="https://wa.me/+212754717702" target="_blank" className="w-full sm:w-auto">
               <Button className="w-full sm:w-auto bg-white text-black hover:bg-black hover:text-white rounded-none h-16 px-12 text-[11px] font-bold uppercase tracking-[0.3em] transition-all duration-500 group">
                 <MessageCircle className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
                 اطلب الآن

@@ -42,7 +42,7 @@ const CTABanner = () => {
           transition={{ delay: 0.3 }}
         >
           <a
-            href="https://wa.me/+212660628947?text=أريد%20طلب%20الكتالوج"
+            href="https://wa.me/+212754717702?text=أريد%20طلب%20الكتالوج"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block"

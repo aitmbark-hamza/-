@@ -255,7 +255,7 @@ export const BestSellers: React.FC = () => {
 
                   <div className="mt-8 space-y-4">
                     <a
-                      href={`https://wa.me/+212660628947?text=Hello,%20I%20want%20to%20order%20the%20${activeProduct.title}`}
+                      href={`https://wa.me/+212754717702?text=Product:%20${activeProduct.title}`}
                       target="_blank"
                       className="flex items-center justify-center w-full bg-slate-900 h-14 text-white rounded-xl gap-3 hover:bg-black transition-colors"
                     >
